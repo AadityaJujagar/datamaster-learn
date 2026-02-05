@@ -24,14 +24,6 @@ function loadScript(src) {
 export async function buyCourse({ token, courses, user, navigate, dispatch }) {
   const toastId = toast.loading("Processing...");
   try {
-    const res = await loadScript(
-      "https://checkout.razorpay.com/v1/checkout.js"
-    );
-    if (!res) {
-      toast.error("Razorpay SDK failed to load");
-      return;
-    }
-
     const orderResponse = await apiConnector(
       "POST",
       COURSE_PAYMENT_API,
@@ -41,8 +33,21 @@ export async function buyCourse({ token, courses, user, navigate, dispatch }) {
       }
     );
 
+    // If backend signals gateway disabled, show friendly toast and abort
+    if (!orderResponse.data.success && orderResponse.data.message === "Payment gateway in progress") {
+      toast.dismiss(toastId);
+      toast("Payment gateway in progress");
+      return;
+    }
+
     if (!orderResponse.data.success) {
       throw new Error(orderResponse.data.message);
+    }
+
+    const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+    if (!res) {
+      toast.error("Razorpay SDK failed to load");
+      return;
     }
 
     const options = {
@@ -131,7 +136,12 @@ async function verifyPayment(bodyData, token, navigate, dispatch) {
     dispatch(resetCart());
   } catch (err) {
     console.error("Error in verifyPayment:", err);
-    toast.error("Payment verification failed");
+    const message = err.response?.data?.message || err.message;
+    if (message === "Payment gateway in progress") {
+      toast(message);
+    } else {
+      toast.error("Payment verification failed");
+    }
   } finally {
     dispatch(setPaymentLoading(false));
     toast.dismiss(toastId);

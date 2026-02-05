@@ -7,7 +7,7 @@ Proprietary MERN learning platform (frontend + backend). This repository contain
 ## What this repository contains
 - Frontend: React (Vite), React Router, Redux Toolkit, Tailwind CSS
 - Backend: Node.js, Express, MongoDB (Mongoose)
-- Payment integration via Razorpay
+- Payment integration: REMOVED (payment gateway disabled)
 - Cloudinary integration for media uploads
 - Email notification templates (Nodemailer)
 
@@ -27,7 +27,7 @@ Proprietary MERN learning platform (frontend + backend). This repository contain
 - Node.js v16+ and npm
 - MongoDB (Atlas or local)
 - Cloudinary account (for uploads)
-- Razorpay account (for payments)
+- NOTE: Razorpay integration has been removed from this codebase. Payment endpoints currently return a "Payment gateway in progress" message. To re-enable payments, integrate a payment provider and configure keys as environment variables.
 
 ## Environment variables
 Create a `.env` file inside the `server/` folder with the following variables (do not commit `.env`):
@@ -38,7 +38,7 @@ Create a `.env` file inside the `server/` folder with the following variables (d
 - `FOLDER_NAME` (Cloudinary folder)
 - `CLOUD_NAME`, `API_KEY`, `API_SECRET` (Cloudinary)
 - `MAIL_HOST`, `MAIL_USER`, `MAIL_PASSWORD`
-- `RAZORPAY_KEY`, `RAZORPAY_SECRET`, `RAZORPAY_WEBHOOK_SECRET`
+- (Razorpay vars removed — not required)
 
 ## Install & Run (development)
 From repository root:
@@ -75,7 +75,7 @@ npm run build
 Check `server/routes/` and `server/controllers/` for full details. Notable endpoints:
 - `/api/v1/auth` - login/signup
 - `/api/v1/profile` - profile update, display picture, delete account
-- `/api/v1/payments` - capture payments and signature verification
+- `/api/v1/payments` - payment endpoints currently disabled; they return `Payment gateway in progress`
 
 ## Notes on deletion & cleanup
 The backend `deleteAccount` handler removes the user and performs cleanup:
