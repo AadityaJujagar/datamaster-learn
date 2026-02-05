@@ -1,7 +1,7 @@
 import BannerImage1 from "../assets/Images/aboutus1.webp";
 import BannerImage2 from "../assets/Images/aboutus2.webp";
 import BannerImage3 from "../assets/Images/aboutus3.webp";
-import FoundingStory from "../assets/Images/foundingStory.png";
+import FoundingStory from "../assets/Images/FoundingStory.png";
 import { Quote } from "../components/core/about/Quote";
 import { HighlightText } from "../components/core/home/HighlightText";
 import { StatsComponent } from "../components/core/about/StatsComponent";
